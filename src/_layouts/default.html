@@ -4,6 +4,9 @@
   {% include head.html %}
 
   <body>
+  {% if  site.googleTagmanager %} 
+    {% include gtm.html %}
+  {% endif %}
 
     {% include sidebar.html %}
 
@@ -25,6 +28,9 @@
     </div>
 
     <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    
+    {% include foot.html %}
 
   </body>
 </html>
+

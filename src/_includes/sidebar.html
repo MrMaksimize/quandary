@@ -7,6 +7,9 @@
   <div class="sidebar-item">
     <p>{{ site.description }}</p>
   </div>
+  <div class="sidebar-item">
+    <img src="/assets/images/sdlogo.png" width="100%"/>
+  </div>
 
   <nav class="sidebar-nav">
     <a class="sidebar-nav-item{% if page.title == "Home" %} active{% endif %}" href="/">Home</a>
@@ -24,11 +27,15 @@
         {% endif %}
       {% endif %}
     {% endfor %}
-
-    <a class="sidebar-nav-item" href="https://github.com/sondr3/generator-jekyllized">Jekyllized on Github</a>
-    <a class="sidebar-nav-item" href="https://github.com/poole">Poole on Github</a>
-    <span class="sidebar-nav-item">Run by <a href="https://twitter.com/{{ site.author.twitter}}">@{{ site.author.name }}<a/></span>
   </nav>
+
+  <div class="sidebar-item">
+    <p>Some More Text</p>
+  </div>
+
+  <div class="sidebar-item social-links">
+      <a href="https://github.com/mrmaksimize" target="_blank" title="Github"><i class="fa fa-2x fa-github"></i></a>
+  </div>
 
   <div class="sidebar-item">
     <p>
@@ -36,3 +43,4 @@
     </p>
   </div>
 </div>
+
