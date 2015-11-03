@@ -2,5 +2,7 @@ deployment:
   staging:
     branch: master
     commands:
+      - git config --global user.email "max@maksimize.com"
+      - git config --global user.name "Maksim Pecherskiy"
       - gulp publish
       - gulp deploy
