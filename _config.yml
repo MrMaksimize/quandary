@@ -1,8 +1,8 @@
 # Title, decription, tagline and URL for your site
 # Can be used in your theme by calling 'site.title' and so on
 title: Quandary
-description: Knowledge
-tagline: More Knowledge
+description: Quandary is an experiment that has yet to shape itself.  Let's see what happens.
+tagline: Government, Data, Knowledge
 url: localhost:4000
 
 # Used so Jekyll outputs the site correctly so Gulp can do what it wants
