@@ -14,7 +14,6 @@ To be completely honest -- I had my hesitations about taking a local government 
 **Technical Skills**
 
 * **Tools for the Job.** I’m proud to say that I have a very wide expertise in a diverse range of technologies, languages and stacks.  I walked into this job with a preconception that my large toolbox can solve a variety of problems really fast.  Instead, I quickly realized that in order to use my toolbox effectively, I needed to understand all the intricate non-technological complexities such as strategy, culture, processes, and even words used to describe things.  I even had to expand my toolbox with more open source and not-so-open-source tools.  The City is a large enterprise, and not everything can be solved by cloning a repo or a $30 a month subscription. This intangible skill of understanding City operations and figuring out the details about how to apply the correct technology has been one of my biggest learnings this year.  
-
 * **R Language.** This past year, I learned the R language - the first data-focused language I’ve used. In addition to learning the language itself, I learned how to communicate research and data analysis through detailed and reproducible reports.
 
 * **Google Apps Script.** I wouldn’t necessarily say that I "learned" it, but I definitely got a lot more familiar with the capacities of Apps Script for handling large amounts of docs programmatically.  This code ran a lot of our initial data inventory.
