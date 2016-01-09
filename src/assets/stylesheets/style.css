@@ -1,4 +1,4 @@
-/* 
+/*
 The main SCSS file for everything, yep
 */
 /*
@@ -928,3 +928,6 @@ a.pagination-item:hover {
 
 .theme-base-0f .container a, .theme-base-0f .sidebar-toggle, .theme-base-0f .related-posts li a:hover {
   color: #8f5536; }
+
+.post img {
+  width: 100%; }
