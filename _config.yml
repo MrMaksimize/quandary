@@ -18,7 +18,7 @@ author:
   twitter: https://twitter.com/MrMaksimize
 
 # general setting for Jekyll
-googleAnalytics: UA-XXXXX-X
+#googleTagManager: GTM-M7C22P
 
 # _config.build.yml overwrites these options when you run `gulp build`
 # Enables future posts (posts with dates in the future) and drafts
