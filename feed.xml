@@ -4,22 +4,20 @@
  <title>Quandary</title>
  <link href="http://quandary.io/atom.xml" rel="self"/>
  <link href="http://quandary.io/"/>
- <updated>2016-01-23T22:54:51+00:00</updated>
+ <updated>2016-01-25T01:14:17+00:00</updated>
  <id>http://quandary.io</id>
  <author>
-   <name>Maksim</name>
-   <email>max@maksimize.com</email>
+   <name></name>
+   <email></email>
  </author>
 
  
  <entry>
    <title>What I Learned In One Year as CDO of San Diego</title>
-   <link href="http://quandary.io/2016/01/11/what-i-learned-one-year-cdo/"/>
+   <link href="http://quandary.io/what-i-learned-one-year-cdo/"/>
    <updated>2016-01-11T00:00:00+00:00</updated>
-   <id>http://quandary.io/2016/01/11/what-i-learned-one-year-cdo</id>
-   <content type="html">&lt;p&gt;&lt;img src=&quot;http://mrm-screen.s3.amazonaws.com/JK6HW3Ka-lFo1s3CiBB9MemZYO7Oi1wUAlDb4iKf32Q.jpeg&quot; alt=&quot;Maksim Council&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Fairly recently, I celebrated my 1 year anniversary of being with the city of San Diego as the Chief Data Officer. Naturally, I’ve been reflecting on my first year in government, and one of the things that strikes me the most is the amount of things that I learned. &lt;/p&gt;
+   <id>http://quandary.io/what-i-learned-one-year-cdo</id>
+   <content type="html">&lt;p&gt;Fairly recently, I celebrated my 1 year anniversary of being with the city of San Diego as the Chief Data Officer. Naturally, I’ve been reflecting on my first year in government, and one of the things that strikes me the most is the amount of things that I learned. &lt;/p&gt;
 
 &lt;p&gt;Some things I learned on my own &amp;ndash; in many cases I invested in supplementary learning in order to succeed.  Others I can directly attribute to conversations with my boss, Almis, my teammates in &lt;a href=&quot;http://sandiego.gov/pad&quot;&gt;Performance and Analytics&lt;/a&gt;, the City’s IT staff, and so many others that if I list them all, this would be a spreadsheet, not a blog post. &lt;/p&gt;
 
