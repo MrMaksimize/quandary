@@ -99,7 +99,7 @@ gulp.task("copy", function () {
 gulp.task("html", ["styles"], function () {
   var assets = $.useref.assets({searchPath: "serve"});
 
-  return gulp.src("serve/**/*.html")
+  return gulp.src(["serve/**/*.html", "serve/**/*.css", "serve/**/*.js"])
     .pipe(assets)
     // Concatenate JavaScript files and preserve important comments
     .pipe($.if("*.js", $.uglify({preserveComments: "some"})))
