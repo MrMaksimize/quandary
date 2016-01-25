@@ -1,11 +1,8 @@
 ---
 layout: post
-date: 2016-01-11
 title: What I Learned In One Year as CDO of San Diego
-categories:
+image: http://mrm-screen.s3.amazonaws.com/JK6HW3Ka-lFo1s3CiBB9MemZYO7Oi1wUAlDb4iKf32Q.jpeg
 ---
-
-![Maksim Council](http://mrm-screen.s3.amazonaws.com/JK6HW3Ka-lFo1s3CiBB9MemZYO7Oi1wUAlDb4iKf32Q.jpeg)
 
 Fairly recently, I celebrated my 1 year anniversary of being with the city of San Diego as the Chief Data Officer. Naturally, I’ve been reflecting on my first year in government, and one of the things that strikes me the most is the amount of things that I learned. 
 

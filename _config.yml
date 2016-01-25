@@ -1,33 +1,21 @@
-# Title, decription, tagline and URL for your site
-# Can be used in your theme by calling 'site.title' and so on
-title: Quandary
+# Build settings
+gems:
+  - jemoji
+  - jekyll-paginate
+
+# Site settings
+title: "Quandary"
 description: Quandary is an experiment that has yet to shape itself.  Let's see what happens.
-tagline: Government, Data, Knowledge
-url: localhost:4000
 
-# Used so Jekyll outputs the site correctly so Gulp can do what it wants
-source: src
-destination: serve
+email: max@maksimize.com
+#blog logo
+logo: "/assets/images/df_logo.jpg"
+# blog cover
+cover: "/assets/images/cA4aKEIPQrerBnp1yGHv_IMG_9534-3-2.jpg"
 
-# Same as the title etc for your site but can instead be
-# called by using 'site.author.name' and so on
-author:
-  name: Maksim
-  email: max@maksimize.com
-  bio: Awesome
-  twitter: https://twitter.com/MrMaksimize
-
-# general setting for Jekyll
-#googleTagManager: GTM-M7C22P
-
-# _config.build.yml overwrites these options when you run `gulp build`
-# Enables future posts (posts with dates in the future) and drafts
-future: true
-show_drafts: true
-# Disables the more accurate related posts for faster generating of the site
-lsi: false
-# Only make the last 10 posts so generating isn't slow
-limit_posts: 10
+name: 'Maksim Pecherskiy'
+author: 'Maksim Pecherskiy'
+author_image: "/assets/images/author.jpg"
 
 # Permalink structure and pagination options
 relative_permalinks: true
@@ -43,3 +31,55 @@ redcarpet:
   extensions: ['no_intra_emphasis', 'tables', 'fenced_code_blocks', 'autolink', 'smart',
               'strikethrough', 'superscript', 'underline', 'highlight', 'footnotes']
 highlighter: true
+
+
+# Used so Jekyll outputs the site correctly so Gulp can do what it wants
+source: src
+destination: serve
+
+
+# _config.build.yml overwrites these options when you run `gulp build`
+# Enables future posts (posts with dates in the future) and drafts
+future: true
+show_drafts: true
+# Disables the more accurate related posts for faster generating of the site
+lsi: false
+# Only make the last 10 posts so generating isn't slow
+limit_posts: 10
+
+
+#used to display twitter cards
+twitter_handle: '@MrMaksimize'
+
+#fill in disqus shortname to use disqus
+disqus: mrmaksimize
+
+# social icons and sharing options
+#social:
+#  - icon:	twitter
+#    url:	https://twitter.com/mrmaksimize
+#    desc: Follow Quandary on twitter
+#    share_url: http://twitter.com/share
+#    share_title: ?text=
+#    share_link: "&amp;url="
+
+#  - icon:	facebook
+#    url:	https://facebook.com/???
+#    desc: Connect with me facebook
+#    share_url: https://www.facebook.com/sharer.php
+#    share_title: ?t=
+#    share_link: "&amp;u="
+
+# - icon:	github
+#    url:	https://github.com/dirkfabisch
+#    desc:	Fork me on github
+#    share_url:
+#    share_title:
+#    share_link:
+
+#  - icon:	google-plus
+#    url:	https://google.com/???
+#    desc:	Add me on google+
+#    share_url:
+#    share_title:
+#    share_link:

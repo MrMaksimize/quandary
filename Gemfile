@@ -1,6 +1,6 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
-gem 'jekyll'
-gem 'redcarpet'
-gem 'classifier-reborn'
-gem 'fast-stemmer'
+# 'github-pages' includes 'jekyll' gem
+gem 'github-pages'
+gem 'bourbon'
+gem 'jemoji'
