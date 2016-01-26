@@ -9,6 +9,7 @@
       <article class="post">
         {% if page.image %}
         <div class="article-image">
+          {% if page.image_caption %}<div class="post-image-meta">{{ page.image_caption }}</div> {% endif %}
           <div class="post-image-image" style="background-image: url({% if page.image %}{{ page.image }}{% endif %})">
             Article Image
           </div>
