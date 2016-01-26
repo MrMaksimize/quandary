@@ -334,10 +334,10 @@ body {
   line-height: 44px;
   display: inline-block;
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.25);
+  color: white;
   font-size: 14px;
   letter-spacing: -0.02em;
-  font-weight: 400;
+  font-weight: bold;
   font-style: normal;
   font-family: Open Sans, MundoSans, "Helvetica Neue", Arial, Helvetica, sans-serif;
   z-index: 999; }
@@ -395,6 +395,13 @@ body {
     text-indent: -9999px;
     padding-top: 33%;
     z-index: 1; } }
+  .post .article-image .post-image-meta {
+    background: transparent;
+    z-index: 99999;
+    color: white;
+    position: absolute;
+    right: 1px;
+    bottom: 1px; }
   .post .article-image .post-meta {
     position: absolute;
     bottom: 80px;
