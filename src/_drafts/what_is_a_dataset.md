@@ -3,21 +3,24 @@ layout: post
 title: What Is A Dataset? An Explanation with Cookies.
 image: http://mrm-screen.s3.amazonaws.com/166940675_2a265dc8d5_o.jpg
 image_caption: image cc andromache on flickr.
+author:
+  name: Maksim Pecherskiy
+  twitter: mrmaksimize
 ---
 
 If you work with data, or interact with people who do, you have inevitably heard the word "dataset".  It's one of those jargon-y words that gets thrown around, and people are somehow supposed to know what it means. It's like when you go to the doctor, and he tells you that you will need "labrum repair", and you feel stupid asking what a labrum is.  
 
 [Wikipedia's Definition of a Dataset](https://en.wikipedia.org/wiki/Data_set):
-> Most commonly a data set corresponds to the contents of a single 
-> database table, or a single statistical data matrix, where every column 
-> of the table represents a particular variable, and each row corresponds 
+> Most commonly a data set corresponds to the contents of a single
+> database table, or a single statistical data matrix, where every column
+> of the table represents a particular variable, and each row corresponds
 > to a given member of the data set in question.
 
 And [data.gov's definiton](http://www.data.gov/glossary) is:
-> A dataset is an organized collection of data. The most basic 
-> representation of a dataset is data elements presented in tabular form. 
-> Each column represents a particular variable. Each row corresponds to a 
-> given value of that column’s variable. A dataset may also present 
+> A dataset is an organized collection of data. The most basic
+> representation of a dataset is data elements presented in tabular form.
+> Each column represents a particular variable. Each row corresponds to a
+> given value of that column’s variable. A dataset may also present
 > information in a variety of non-tabular formats, such as an extended mark
 > -up language (XML) file, a geospatial data file, or an image file.
 
