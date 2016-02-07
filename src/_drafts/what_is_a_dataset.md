@@ -1,7 +1,7 @@
 ---
 layout: post
 title: What Is A Dataset? An Explanation with Cookies.
-image: http://mrm-screen.s3.amazonaws.com/166940675_2a265dc8d5_o.jpg
+image: http://mrm-screen.s3.amazonaws.com/tetris-food.png
 image_caption: image cc andromache on flickr.
 author:
   name: Maksim Pecherskiy
