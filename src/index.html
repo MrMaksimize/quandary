@@ -1,5 +1,6 @@
 ---
 layout: default
+body_id: homepage
 ---
 
 <div class="teaserimage">
@@ -9,15 +10,16 @@ layout: default
 </div>
 
 <header class="blog-header">
-    {% if site.logo %}
+    {% comment %}Let's just do the logo at the top left for now so we don't have a ton of question marks.
       <a class="blog-logo" href="{{site.url}}" style="background-image: url('{{ site.logo }}')">{{ site.title }}</a>
-    {% endif %}
+    {% endcomment %}
     <h1 class="blog-title">{{ site.title }}</h1>
-    <h2 class="blog-description">{{ site.description }}</h2>
+    <h2 class="blog-description"><a href="/about">{{ site.description }}</a></h2>
+    {% comment %}We don't really need custom links right now. Let's just link the tagline to the about page and put about in the footer.
     <div class="custom-links">
       {% for social in site.social %}
         {% if social.url %}
-            <a class="icon-{{ social.icon }}" href="{{ social.url }}" {% if social.desc %} title="{{ social.desc }}"{% endif %}">
+            <a class="icon-{{ social.icon }}" href="{{ social.url }}" {% if social.desc %} title="{{ social.desc }}"{% endif %}>
               <i class="fa fa-{{ social.icon }}"></i>
             </a>
             &nbsp;&nbsp;·&nbsp;&nbsp;
@@ -25,6 +27,7 @@ layout: default
       {% endfor %}
       <a href="/about/">About</a>
     </div>
+    {% endcomment %}
 </header>
 
 
@@ -45,7 +48,9 @@ layout: default
             </section>
             <div class="post-meta">
               <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
-  <!--            <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>-->
+              {% comment %}
+              <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>
+              {% endcomment %}
             </div>
           </div>
         </article>
@@ -62,18 +67,24 @@ layout: default
             <header class="post-header">
               <h2 class="post-title" itemprop="name"><a href="{{ post.url }}" itemprop="url">{{ post.title }}</a></h2>
             </header>
-            <section class="post-excerpt" itemprop="description">
-              <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
-            </section>
             <div class="post-meta">
-              <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
-<!--            <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>-->
+              Posted <time datetime="{{ post.date | date: '%B %d, %Y' }}">{{ post.date | date: '%B %d, %Y' }}</time>{% if post.author.name %} by {{ post.author.name }}{% endif %}
+              {% comment %}
+              <span class="post-tags-set">on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}}</span>
+              {% endcomment %}
+            </div>
+            <section class="post-excerpt" itemprop="description">
+              <p>{{ post.excerpt | strip_html | truncatewords: 45 }}</p>
+            </section>
+            <div class="post-more">
+              <p><a href="{{ post.url }}">Read more</a></p>
             </div>
           </div>
         </article>
       {% endfor %}
     </div>
 
+    {% if paginator.total_pages > 1 %}
     <nav class="pagination" role="navigation">
       {% if paginator.next_page %}
         <a class="newer-posts" href="/page{{paginator.next_page}}">&larr; Older posts</a>
@@ -87,6 +98,7 @@ layout: default
         {% endif %}
       {% endif %}
     </nav>
+    {% endif %}
 
 
     <!-- {{!! After all the posts, we have the previous/next pagination links }}

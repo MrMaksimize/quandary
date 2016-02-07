@@ -4,14 +4,14 @@ gems:
   - jekyll-paginate
 
 # Site settings
-title: "Quandary"
-description: An Experiment 
+title: "Quandary."
+description: An Experiment
 
 email: max@maksimize.com
 #blog logo
 logo: "/assets/images/logo_white.png"
 # blog cover
-cover: "/assets/images/cA4aKEIPQrerBnp1yGHv_IMG_9534-3-2.jpg"
+cover: "/assets/images/harddrive.jpg"
 
 name: 'Maksim Pecherskiy'
 author: 'Maksim Pecherskiy'
