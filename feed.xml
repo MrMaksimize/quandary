@@ -4,13 +4,123 @@
  <title>Quandary.</title>
  <link href="http://quandary.io/atom.xml" rel="self"/>
  <link href="http://quandary.io/"/>
- <updated>2016-02-07T23:09:47+00:00</updated>
+ <updated>2016-04-20T21:36:34+00:00</updated>
  <id>http://quandary.io</id>
  <author>
    <name></name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>What Is A Dataset? An Explanation with Cookies.</title>
+   <link href="http://quandary.io/what-is-a-dataset/"/>
+   <updated>2016-04-20T00:00:00+00:00</updated>
+   <id>http://quandary.io/what-is-a-dataset</id>
+   <content type="html">&lt;p&gt;If you work with data, or interact with people who do, you have inevitably heard the word &amp;ldquo;dataset&amp;rdquo;.  It&amp;rsquo;s one of those jargon-y words that gets thrown around, and people are somehow supposed to know what it means. It&amp;rsquo;s like when you go to the doctor, and he tells you that you will need &amp;ldquo;labrum repair&amp;rdquo;, and you feel stupid asking what a labrum is.  &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Data_set&quot;&gt;Wikipedia&amp;rsquo;s Definition of a Dataset&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Most commonly a data set corresponds to the contents of a single
+database table, or a single statistical data matrix, where every column
+of the table represents a particular variable, and each row corresponds
+to a given member of the data set in question.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And &lt;a href=&quot;http://www.data.gov/glossary&quot;&gt;data.gov&amp;rsquo;s definiton&lt;/a&gt; is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A dataset is an organized collection of data. The most basic
+representation of a dataset is data elements presented in tabular form.
+Each column represents a particular variable. Each row corresponds to a
+given value of that column’s variable. A dataset may also present
+information in a variety of non-tabular formats, such as an extended mark
+-up language (XML) file, a geospatial data file, or an image file.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Nothing is incorrect about these definitions, but they tend to miscommunicate and under-explain what a dataset is. This causes a lot of confusion and frustration in the government open data community (and probably other communities as well). People end up thinking that there are datasets laying around on a shelf somewhere &amp;ndash; that it&amp;rsquo;s a finite, well-defined thing that a city employee can just grab and publish.  Sometimes, it&amp;rsquo;s true.  However, more often than not, a dataset is more like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/AZ3WU&quot; alt=&quot;Cookies&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;There are two properties that every dataset has that are critical to how useful it is &amp;ndash; &lt;strong&gt;format&lt;/strong&gt; and &lt;strong&gt;structure&lt;/strong&gt;.  &lt;/p&gt;
+
+&lt;h2&gt;Format&lt;/h2&gt;
+
+&lt;p&gt;Format is fairly straightforward.  In order for a dataset to be used by as many people as possible, it has to be open and machine readable. This is just a primer - I&amp;rsquo;ll go into more detail in a different post. &lt;/p&gt;
+
+&lt;h3&gt;Open&lt;/h3&gt;
+
+&lt;p&gt;Open formats are those that can be read by a simple text editor.  For example, CSV files - a common format for tabular data can be opened in Notepad.  They will be hard to read by a human, but it&amp;rsquo;ll work. They can also be opened in Excel and plenty of languages have CSV parsers.  &lt;/p&gt;
+
+&lt;p&gt;However, the sister of the CSV file - the Excel file can &lt;strong&gt;only&lt;/strong&gt; be opened in Excel.  That means that if I want to look at your file, I have to give Microsoft some serious $$ for Microsoft Office.   &lt;/p&gt;
+
+&lt;h3&gt;Machine Readable&lt;/h3&gt;
+
+&lt;p&gt;The other aspect of an open dataset is that it&amp;rsquo;s machine readable.  This ties in with &amp;ldquo;open&amp;rdquo; - since many more languages and libraries can read formats not copyrighted by a vendor.  But this also means structured in a predictable manner.  For example, a PDF file is not machine readable because it&amp;rsquo;s digital paper - and breaking down the structure of a PDF is really hard for a program that can only deal with structured data - the format is closed and copyrighted, and also extremely opaque.&lt;/p&gt;
+
+&lt;h2&gt;Structure&lt;/h2&gt;
+
+&lt;p&gt;Structure is a lot more difficult to get right than format. For the sake of this post (and to keep you awake), we&amp;rsquo;ll talk only about tabular data (data that lives in rows and columns).  There are other types of data though, such as GIS (mapping) data, XML / JSON (nested data), and several others.  &lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s step back and take a look at a database (or the dough blob).   We&amp;rsquo;ll keep NoSQL databases out of this for simplicity and only focus on the old-school relational databases.  What does a database look like?&lt;/p&gt;
+
+&lt;p&gt;Contrary to what Hollywood would like us to think, this is not a database:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://c2.staticflickr.com/6/5142/5577388841_97e1280796_b.jpg&quot; width=&quot;30%&quot;/ alt=&quot;Not A Database&quot;&gt;.  &lt;/p&gt;
+
+&lt;p&gt;A relational database isn&amp;rsquo;t really that exciting - it&amp;rsquo;s just a collection of tables (sorry, I tried, but relating this to cookies is hard):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/MkaCS&quot; alt=&quot;A Database&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;These tables contain a variety of columns. Invariably, one or more of these columns is going to have a set of values that relates to a set of values in another table.  That&amp;rsquo;s what makes a database relational and also what gives the technology so much power and flexibility.  It&amp;rsquo;s like dough - you can shape it, mold it, cut it and change its shape as much as you want to fit your cookie idea.  &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/9eaVo&quot; alt=&quot;Dough is Flexible - You can make cookies or cupcakes&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s take a look a more concrete example:  &lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say you have a company that sells widgets.  You keep track of your customers, and you keep track of the widgets you sell.  Let&amp;rsquo;s imagine a very simple database with just three tables:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/y0Nyv&quot; alt=&quot;Simple Three Table DB&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;There is one table to keep information on your customers, another one to keep track of the widgets you have, and a table that keeps track of the orders - where the customers bought the widgets. For the sake of simplicity, there is only one customer per order and one widget per order.  &lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s look at some example data in this type of structure and examine some points below: &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/OdQsB&quot; alt=&quot;Sample Widget Data&quot;&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We can see that each table has an ID column. This is called a &lt;strong&gt;primary key&lt;/strong&gt; and is used for the database to differentiate each record in that specific table.  A lot of times it corresponds to a row number.&lt;/li&gt;
+&lt;li&gt;In the orders table, we can see that each order has its own ID but also references the ID of the widget sold and the customer to whom it was sold.&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So with the following example, what are some datasets we can generate?  There are many options:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We can get 3 datasets already just by using the tables themselves. So, there will be a customers dataset, a widgets dataset, and an orders dataset. However, the orders dataset will be pretty useless, since it references IDs only relevant in the context of the other two tables.&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;We can get a list of only those customers who have purchased a widget.&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;We can get a list of customers who purchased a widget and live in Chicago.&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;We can get a list of all the customers regardless of whether they have purchased a widget.&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;We can get a list of customers, the widget they each purchased, the model of the widget, and how much the widget costs.&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;We can get a list of widgets and which customers purchased them.&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;Or a list of widgets and in which city they were purchased.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We get these datasets by using SQL, a database query language, and what you see above is not an exhaustive list: there are many other alternatives.  In addition, due to data schema changes, process changes and technology changes, data after a certain date may not be valid or may not mean the same thing.  For example, up until our widget company changed their process in 2011, the &amp;ldquo;city&amp;rdquo; column in the customer table indicated the city in which the customer was born, not where he or she lived.  &lt;/p&gt;
+
+&lt;p&gt;This complexity is present in our simple fake database of just three tables, but modern relational databases have upwards of 100, often thousands of tables. There are also plenty of caveats in how they&amp;rsquo;re named, how relations are structured, and what type of queries make sense. Plus, writing the queries is no easy task. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/XDzwb&quot; alt=&quot;So Many Choices&quot;&gt; &lt;/p&gt;
+
+&lt;h2&gt;Some Clarification&lt;/h2&gt;
+
+&lt;p&gt;I want to take a moment to clarify here - I&amp;rsquo;m not saying that every dataset is hard to create.  Sometimes it&amp;rsquo;s as easy as grabbing an Excel file from the desktop.  But even then, we still have to make sure that there are no sensitive data in there, such as someone&amp;rsquo;s phone number.  &lt;/p&gt;
+
+&lt;p&gt;I also haven&amp;rsquo;t touched on things like aggregation and making sure that we generate data that fits the &lt;a href=&quot;http://vita.had.co.nz/papers/tidy-data.pdf&quot;&gt;Tidy Data Spec&lt;/a&gt; so that it&amp;rsquo;s prime for analysis.&lt;/p&gt;
+
+&lt;p&gt;How do you define a dataset?  It&amp;rsquo;s definitely an &amp;ldquo;organized collection of data,&amp;rdquo; but I hope I was able to show you that there are many caveats.  So the next time you go and ask someone for a dataset, bring them a box of cookies, because fulfilling your request might take some hard work. &lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>What I Learned In One Year as CDO of San Diego</title>
