@@ -1,6 +1,6 @@
 ---
 layout: post
-title: What Is A Dataset? An Explanation with Cookies.
+title: What Is A Dataset? A Delicious Explanation.
 image: http://mrm-screen.s3.amazonaws.com/tetris-food.png
 image_caption: image cc andromache on flickr.
 author:
@@ -49,7 +49,7 @@ Let's step back and take a look at a database (or the dough blob).   We'll keep 
 
 Contrary to what Hollywood would like us to think, this is not a database:
 
-<img src="https://c2.staticflickr.com/6/5142/5577388841_97e1280796_b.jpg" width="30%"/ alt="Not A Database">.  
+<img src="https://c2.staticflickr.com/6/5142/5577388841_97e1280796_b.jpg" width="100%"/ alt="Not A Database">.  
 
 A relational database isn't really that exciting - it's just a collection of tables (sorry, I tried, but relating this to cookies is hard):
 
@@ -57,13 +57,13 @@ A relational database isn't really that exciting - it's just a collection of tab
 
 These tables contain a variety of columns. Invariably, one or more of these columns is going to have a set of values that relates to a set of values in another table.  That's what makes a database relational and also what gives the technology so much power and flexibility.  It's like dough - you can shape it, mold it, cut it and change its shape as much as you want to fit your cookie idea.  
 
-![Dough is Flexible - You can make cookies or cupcakes](http://take.ms/9eaVo)
+<img alt="Dough is Flexible - You can make cookies or cupcakes" src="http://take.ms/9eaVo" width="100%" />
 
 Let's take a look a more concrete example:  
 
 Let's say you have a company that sells widgets.  You keep track of your customers, and you keep track of the widgets you sell.  Let's imagine a very simple database with just three tables:
 
-![Simple Three Table DB](http://take.ms/y0Nyv)
+![Simple Three Table Database](http://take.ms/y0Nyv)
 
 There is one table to keep information on your customers, another one to keep track of the widgets you have, and a table that keeps track of the orders - where the customers bought the widgets. For the sake of simplicity, there is only one customer per order and one widget per order.  
 
@@ -91,11 +91,15 @@ This complexity is present in our simple fake database of just three tables, but
 ![So Many Choices](http://take.ms/XDzwb) 
 
 ## Some Clarification
-I want to take a moment to clarify here - I'm not saying that every dataset is hard to create.  Sometimes it's as easy as grabbing an Excel file from the desktop.  But even then, we still have to make sure that there are no sensitive data in there, such as someone's phone number.  
+I want to take a moment to clarify here - I'm not saying that every dataset is hard to create.  Sometimes it's as easy as grabbing an Excel file from the desktop.  But even then, it's still necessary to make sure that there are no sensitive data in there, such as someone's phone number.  
 
 I also haven't touched on things like aggregation and making sure that we generate data that fits the [Tidy Data Spec](http://vita.had.co.nz/papers/tidy-data.pdf) so that it's prime for analysis.
 
-How do you define a dataset?  It's definitely an "organized collection of data," but I hope I was able to show you that there are many caveats.  So the next time you go and ask someone for a dataset, bring them a box of cookies, because fulfilling your request might take some hard work. 
+How do ***you*** define a dataset?  
+
+I hope I was able to show you that it's not all cut and dry.  
+
+The next time you go and ask someone for a dataset, bring them a box of cookies just in case. Fulfilling your request may involve a lot of hard work. 
 
 
 
