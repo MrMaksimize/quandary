@@ -4,13 +4,138 @@
  <title>Quandary.</title>
  <link href="http://quandary.io/atom.xml" rel="self"/>
  <link href="http://quandary.io/"/>
- <updated>2016-07-13T17:54:22+00:00</updated>
+ <updated>2016-07-22T17:27:35+00:00</updated>
  <id>http://quandary.io</id>
  <author>
    <name></name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>GIS and Spatial Joins in Tableau</title>
+   <link href="http://quandary.io/tableau-gis-spatial/"/>
+   <updated>2016-07-22T00:00:00+00:00</updated>
+   <id>http://quandary.io/tableau-gis-spatial</id>
+   <content type="html">&lt;p&gt;We own several Tableau licenses at the City of San Diego. We use it for a few things, the most visible of which is &lt;a href=&quot;http://performance.sandiego.gov&quot;&gt;PerformSD&lt;/a&gt;, which our Open Data Coordinator &lt;a href=&quot;https://www.linkedin.com/in/andrell-bower-2b576a25&quot;&gt;Andrell&lt;/a&gt; absolutely rocked.  &lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been playing around a bit with Tableau and wanted to see which Community Planning Districts have the highest density of gas stations (yes, I do ask questions like that). Tableau is not meant for heavy GIS operations, but I could see myself wanting to build a dashboard around a similar use-case.&lt;/p&gt;
+
+&lt;h2&gt;What we have&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://data.sandiego.gov/dataset/community-planning-district-boundaries&quot;&gt;A Shapefile of Community Planning Areas from the City of SD Data Portal&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;A &lt;a href=&quot;http://mrm-screen.s3.amazonaws.com/Gas_Stations.zip&quot;&gt;Shapefile of gas stations from SanGIS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Data We Need To Give Tableau&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A CSV file of points that outline the borders of each of the polygons&lt;/li&gt;
+&lt;li&gt;A CSV file of gas stations with a column that references the ID of the Community Planning District.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Convert Community Planning Districts to CSV&lt;/h2&gt;
+
+&lt;p&gt;Tableau is not capable of working with Shapefiles at all (although that&amp;rsquo;s slated to change in Tableau 10). This means that the first thing we need to do is convert the Community Planning Districts (CPD) Shapefile to a CSV of points that outline the borders of each of the polygon.&lt;/p&gt;
+
+&lt;p&gt;Luckily, this task already has several solutions. The easiest way is to do it using this hosted &lt;a href=&quot;%5Balteryx%20job%5D(https://gallery.alteryx.com/#!app/Tableau-Shapefile-to-Polygon-Converter/5296f89120aaf905b8e7fb48)&quot;&gt;alteryx job&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can also use this &lt;a href=&quot;https://github.com/msolbrig/TabShapeR&quot;&gt;R Script&lt;/a&gt; to get the same job done.&lt;/p&gt;
+
+&lt;p&gt;Or, just pick up &lt;a href=&quot;http://mrm-screen.s3.amazonaws.com/ComPlan.csv&quot;&gt;the ones I have already converted&lt;/a&gt; (and don&amp;rsquo;t forget the &lt;a href=&quot;http://mrm-screen.s3.amazonaws.com/Community_Plan_SD%20(1).pdf&quot;&gt;metadata&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Now, put that file somewhere safe, and let&amp;rsquo;s go back to the community planning &lt;strong&gt;&lt;em&gt;Shapefile&lt;/em&gt;&lt;/strong&gt; for the next section.&lt;/p&gt;
+
+&lt;p&gt;Now we need a &lt;strong&gt;A CSV file of gas stations, with a column that references the ID of the Community Planning District&lt;/strong&gt;.
+To get this, we need to perform a spatial join between the CPD and the gas stations Shapefile.&lt;/p&gt;
+
+&lt;p&gt;You can perform this operation in any GIS tool (ArcGIS, CartoDB, Python, etc). I&amp;rsquo;ve been digging R a lot lately, so that&amp;rsquo;s what we&amp;rsquo;ll use here. A spatial join is a geospatial operation to figure out which geographical objects are located within other geographical objects. In our case, we&amp;rsquo;re going to figure out which requests (points) belong in which polygons (CPD).&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s do some setup We&amp;rsquo;re going to use the original CPD Shapefile we got from SANGIS, and the shapefile with all the gas stations:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;directory &amp;lt;- &amp;quot;.&amp;quot;
+
+library(rgdal) #conatins the read/writeOGR for reading shapelies and read/writeRGDAL for reading raster data
+library(rgeos) # neccessary for ggplot2::fortify.sp(); serves as a replacement for gpclib
+library(maptools) #Contains the overlay command
+library(dplyr) # For data magic
+
+setwd(directory)
+
+# Lat / Lon projection string.
+latlon &amp;lt;- &amp;quot;+init=epsg:4326&amp;quot;
+
+gasStations &amp;lt;- readOGR(&amp;quot;./data/Gas_Stations&amp;quot;, 
+                       layer = &amp;quot;GAS_STATIONS&amp;quot;)
+
+com_plan &amp;lt;- readOGR(&amp;quot;./data/Community_Plan_SD&amp;quot;, 
+                    layer = &amp;quot;Community_Plan_SD&amp;quot;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, let&amp;rsquo;s execute the spatial join in R&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;gasStationsCPD &amp;lt;- over(gasStations, com_plan)
+# Since it&amp;#39;s really based by rownumber, let&amp;#39;s do a safe join of the new 
+# gas station data, and the gas stations belonging in each community planning
+# district.
+gasStations@data &amp;lt;- as.data.frame(bind_cols(gasStations@data, gasStationsCPD))
+
+# How many match?
+nMatches &amp;lt;- nrow(gasStationsCPD[complete.cases(gasStationsCPD), ])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will give us a dataframe with 787 rows, or the number of rows in our gas stations Shapefile. The blank rows simply don&amp;rsquo;t match a community planning district. 291 rows are not blank, meaning 291 out of 787 gas stations are located in a community planning district in San Diego. Since our goal here is to do as much data manipulation in Tableau as possible to allow for maximum end-user flexibility, we will leave the task of filtering out the blank rows to Tableau.&lt;/p&gt;
+
+&lt;p&gt;We still need to give Tableau a CSV with lat/longs, and currently gasStationsCPD is a SpatialPointsDataFrame. Let&amp;rsquo;s make a CSV.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# First, let&amp;#39;s adjust the coordinates to lat/long
+gsDF &amp;lt;- spTransform(gasStations, CRS(latlon))
+
+gsDF &amp;lt;- as.data.frame(gsDF) %&amp;gt;%
+    rename(latitude = coords.x1, longitude = coords.x2)
+
+write.csv(gsDF, file = &amp;quot;./data/tableau_out/gas_stations.csv&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will give us our gas station file with a column referencing a Community Planning District, and that column will be populated if the gas station is located within one.&lt;/p&gt;
+
+&lt;h2&gt;Putting it all together&lt;/h2&gt;
+
+&lt;p&gt;Now, we have our CSV file with a set of points that outline the edges of the Community Planning District polygons and our CSV file with Gas Stations, their lat/longs, and a reference to which community district within which they are located.
+To start building in Tableau, we need to add our data sources first. Make sure to put ComPlan.csv and gas_stations.csv in the same folder. For some reason, Tableau likes it better that way.&lt;/p&gt;
+
+&lt;p&gt;Then, drag in the ComPlan.csv file, followed by the gas stations csv:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/koYwj&quot; alt=&quot;Tableau1&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Tableau will pop up the fields for you to join the data. Select the match on CPNAME, and now they&amp;rsquo;re joined.  &lt;/p&gt;
+
+&lt;p&gt;Next, let&amp;rsquo;s do some mapping!&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Command- (or control) click on Lattitude and Longitude measures under Com Plan&lt;/li&gt;
+&lt;li&gt;Click the map under Show Me&lt;/li&gt;
+&lt;li&gt;Drag CPNAME dimension from ComPlan under marks&lt;/li&gt;
+&lt;li&gt;Drag Polygon ID dimension from ComPlan under marks&lt;/li&gt;
+&lt;li&gt;Change Mark Type to Polygon&lt;/li&gt;
+&lt;li&gt;Drag Point ID dimension from ComPlan under marks&lt;/li&gt;
+&lt;li&gt;Drag Number of Records measure from Gas Stations to the color box&lt;/li&gt;
+&lt;li&gt;Drag CPNAME dimension from ComPlan under marks.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We have a map of community planning districts colored by the density of gas stations in each!&lt;/p&gt;
+
+&lt;p&gt;We can also add a filter:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/Up4JJ&quot; alt=&quot;Tableau2&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;This lets us filter by the number of gas stations in a Community Planning District.&lt;/p&gt;
+
+&lt;h2&gt;What&amp;rsquo;s Next?&lt;/h2&gt;
+
+&lt;p&gt;The gas_stations.csv file has plenty of interesting attributes, so it&amp;rsquo;s time to let your imagination run wild.  By adding that simple column of community planning district id to the CSV file of gas stations, we have given ourselves to do all kinds of filtering by the community planning district.&lt;/p&gt;
+
+&lt;p&gt;You can pick up the relevant code, Tableau workbook and links to files in the &lt;a href=&quot;https://github.com/MrMaksimize/RTableauGasStationsExperiment&quot;&gt;Github Repo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;If you find something wrong or disagree with me, you know what to do :)   &lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>What Is A Dataset? A Delicious Explanation.</title>

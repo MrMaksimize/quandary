@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="IE=edge"><title>GIS and Spatial Joins in Tableau</title><meta name=description content="We own several Tableau licenses at the City of San Diego. We use it for a few things, the most visible of which is PerformSD, which our Open Data Coordinator Andrell absolutely rocked.  I&rsquo;ve ..."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black-translucent><meta name=twitter:card content="summary"><meta name=twitter:site content="@MrMaksimize"><meta name=twitter:title content="GIS and Spatial Joins in Tableau"><meta name=twitter:image content="http://quandary.io/assets/images/logo_white.png"><meta name=twitter:description content="We own several Tableau licenses at the City of San Diego. We use it for a few things, the most visible of which is PerformSD, which our Open Data Coordinator Andrell absolutely rocked.  I&rsquo;ve ..."><meta property=og:site_name content="Quandary."><meta property=og:title content="GIS and Spatial Joins in Tableau"><meta property=og:description content="We own several Tableau licenses at the City of San Diego. We use it for a few things, the most visible of which is PerformSD, which our Open Data Coordinator Andrell absolutely rocked.  I&rsquo;ve ..."><meta property=og:image content="http://quandary.iohttp://mrm-screen.s3.amazonaws.com/tableau_gas_stations-1.png"><meta property=og:url content="http://quandary.io/tableau-gis-spatial/"><meta property=og:type content="blog"><meta property=article:published_time content=2016-07-22T00:00:00+00:00><link rel=canonical href="http://quandary.io/tableau-gis-spatial/"><link rel="shortcut icon" href=/assets/images/favicon.png type="image/png"><link rel=stylesheet href=//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i><link href=//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css rel=stylesheet><link href="//fonts.googleapis.com/css?family=Merriweather" rel=stylesheet type=text/css><link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel=stylesheet type=text/css><link rel=alternate type=application/rss+xml title=RSS href=/atom.xml><link rel=stylesheet type=text/css media=screen href="/css/main.css"><link rel=stylesheet type=text/css media=print href="/css/print.css"></head><body itemscope itemtype=http://schema.org/Article><a href="/" class=logo-readium><span class=logo style="background-image: url(/assets/images/logo_white.png)"></span></a><main class=content role=main><article class=post><div class=article-image><div class=post-image-image style="background-image: url(http://mrm-screen.s3.amazonaws.com/tableau_gas_stations-1.png)">Article Image</div><div class=post-image-image2 style="background-image: url()">Article Image</div><div class=post-meta><h1 class=post-title>GIS and Spatial Joins in Tableau</h1><div class="cf post-meta-text"><div class=author-image style="background-image: url(/assets/images/author.jpg)">Blog Logo</div><h4 class=author-name itemprop=author itemscope itemtype=http://schema.org/Person>Maksim Pecherskiy</h4>on <time datetime="2016-07-22 00:00">22 Jul 2016</time></div><div style=text-align:center><a href=#topofpage class=topofpage><i class="fa fa-angle-down"></i></a></div></div></div><section class=post-content><div class=post-reading><span class=post-reading-time></span> read</div><a name=topofpage></a><p>We own several Tableau licenses at the City of San Diego. We use it for a few things, the most visible of which is <a href=http://performance.sandiego.gov>PerformSD</a>, which our Open Data Coordinator <a href=https://www.linkedin.com/in/andrell-bower-2b576a25>Andrell</a> absolutely rocked.</p><p>I&rsquo;ve been playing around a bit with Tableau and wanted to see which Community Planning Districts have the highest density of gas stations (yes, I do ask questions like that). Tableau is not meant for heavy GIS operations, but I could see myself wanting to build a dashboard around a similar use-case.</p><h2>What we have</h2><ul><li><a href=http://data.sandiego.gov/dataset/community-planning-district-boundaries>A Shapefile of Community Planning Areas from the City of SD Data Portal</a>.</li><li>A <a href=http://mrm-screen.s3.amazonaws.com/Gas_Stations.zip>Shapefile of gas stations from SanGIS</a></li></ul><h2>Data We Need To Give Tableau</h2><ul><li>A CSV file of points that outline the borders of each of the polygons</li><li>A CSV file of gas stations with a column that references the ID of the Community Planning District.</li></ul><h2>Convert Community Planning Districts to CSV</h2><p>Tableau is not capable of working with Shapefiles at all (although that&rsquo;s slated to change in Tableau 10). This means that the first thing we need to do is convert the Community Planning Districts (CPD) Shapefile to a CSV of points that outline the borders of each of the polygon.</p><p>Luckily, this task already has several solutions. The easiest way is to do it using this hosted <a href=%5Balteryx%20job%5D(https://gallery.alteryx.com/#!app/Tableau-Shapefile-to-Polygon-Converter/5296f89120aaf905b8e7fb48)>alteryx job</a>.</p><p>You can also use this <a href=https://github.com/msolbrig/TabShapeR>R Script</a> to get the same job done.</p><p>Or, just pick up <a href=http://mrm-screen.s3.amazonaws.com/ComPlan.csv>the ones I have already converted</a> (and don&rsquo;t forget the <a href=http://mrm-screen.s3.amazonaws.com/Community_Plan_SD%20(1).pdf>metadata</a>).</p><p>Now, put that file somewhere safe, and let&rsquo;s go back to the community planning <strong><em>Shapefile</em></strong> for the next section.</p><p>Now we need a <strong>A CSV file of gas stations, with a column that references the ID of the Community Planning District</strong>. To get this, we need to perform a spatial join between the CPD and the gas stations Shapefile.</p><p>You can perform this operation in any GIS tool (ArcGIS, CartoDB, Python, etc). I&rsquo;ve been digging R a lot lately, so that&rsquo;s what we&rsquo;ll use here. A spatial join is a geospatial operation to figure out which geographical objects are located within other geographical objects. In our case, we&rsquo;re going to figure out which requests (points) belong in which polygons (CPD).</p><p>Let&rsquo;s do some setup We&rsquo;re going to use the original CPD Shapefile we got from SANGIS, and the shapefile with all the gas stations:</p><div class=highlight><pre><code class=language-text data-lang=text>directory &lt;- &quot;.&quot;
+
+library(rgdal) #conatins the read/writeOGR for reading shapelies and read/writeRGDAL for reading raster data
+library(rgeos) # neccessary for ggplot2::fortify.sp(); serves as a replacement for gpclib
+library(maptools) #Contains the overlay command
+library(dplyr) # For data magic
+
+setwd(directory)
+
+# Lat / Lon projection string.
+latlon &lt;- &quot;+init=epsg:4326&quot;
+
+gasStations &lt;- readOGR(&quot;./data/Gas_Stations&quot;, 
+                       layer = &quot;GAS_STATIONS&quot;)
+
+com_plan &lt;- readOGR(&quot;./data/Community_Plan_SD&quot;, 
+                    layer = &quot;Community_Plan_SD&quot;)
+
+</code></pre></div><p>Now, let&rsquo;s execute the spatial join in R</p><div class=highlight><pre><code class=language-text data-lang=text>gasStationsCPD &lt;- over(gasStations, com_plan)
+# Since it&#39;s really based by rownumber, let&#39;s do a safe join of the new 
+# gas station data, and the gas stations belonging in each community planning
+# district.
+gasStations@data &lt;- as.data.frame(bind_cols(gasStations@data, gasStationsCPD))
+
+# How many match?
+nMatches &lt;- nrow(gasStationsCPD[complete.cases(gasStationsCPD), ])
+</code></pre></div><p>This will give us a dataframe with 787 rows, or the number of rows in our gas stations Shapefile. The blank rows simply don&rsquo;t match a community planning district. 291 rows are not blank, meaning 291 out of 787 gas stations are located in a community planning district in San Diego. Since our goal here is to do as much data manipulation in Tableau as possible to allow for maximum end-user flexibility, we will leave the task of filtering out the blank rows to Tableau.</p><p>We still need to give Tableau a CSV with lat/longs, and currently gasStationsCPD is a SpatialPointsDataFrame. Let&rsquo;s make a CSV.</p><div class=highlight><pre><code class=language-text data-lang=text># First, let&#39;s adjust the coordinates to lat/long
+gsDF &lt;- spTransform(gasStations, CRS(latlon))
+
+gsDF &lt;- as.data.frame(gsDF) %&gt;%
+    rename(latitude = coords.x1, longitude = coords.x2)
+
+write.csv(gsDF, file = &quot;./data/tableau_out/gas_stations.csv&quot;)
+</code></pre></div><p>This will give us our gas station file with a column referencing a Community Planning District, and that column will be populated if the gas station is located within one.</p><h2>Putting it all together</h2><p>Now, we have our CSV file with a set of points that outline the edges of the Community Planning District polygons and our CSV file with Gas Stations, their lat/longs, and a reference to which community district within which they are located. To start building in Tableau, we need to add our data sources first. Make sure to put ComPlan.csv and gas_stations.csv in the same folder. For some reason, Tableau likes it better that way.</p><p>Then, drag in the ComPlan.csv file, followed by the gas stations csv:</p><p><img src=http://take.ms/koYwj alt=Tableau1></p><p>Tableau will pop up the fields for you to join the data. Select the match on CPNAME, and now they&rsquo;re joined.</p><p>Next, let&rsquo;s do some mapping!</p><ol><li>Command- (or control) click on Lattitude and Longitude measures under Com Plan</li><li>Click the map under Show Me</li><li>Drag CPNAME dimension from ComPlan under marks</li><li>Drag Polygon ID dimension from ComPlan under marks</li><li>Change Mark Type to Polygon</li><li>Drag Point ID dimension from ComPlan under marks</li><li>Drag Number of Records measure from Gas Stations to the color box</li><li>Drag CPNAME dimension from ComPlan under marks.</li></ol><p>We have a map of community planning districts colored by the density of gas stations in each!</p><p>We can also add a filter:</p><p><img src=http://take.ms/Up4JJ alt=Tableau2></p><p>This lets us filter by the number of gas stations in a Community Planning District.</p><h2>What&rsquo;s Next?</h2><p>The gas_stations.csv file has plenty of interesting attributes, so it&rsquo;s time to let your imagination run wild. By adding that simple column of community planning district id to the CSV file of gas stations, we have given ourselves to do all kinds of filtering by the community planning district.</p><p>You can pick up the relevant code, Tableau workbook and links to files in the <a href=https://github.com/MrMaksimize/RTableauGasStationsExperiment>Github Repo</a></p><p>If you find something wrong or disagree with me, you know what to do :)</p></section><footer class=post-footer><section class=share></section></footer><div class="bottom-teaser cf"><div class=isLeft><h5 class="index-headline featured"><span>Written by</span></h5><section class=author><div class=author-image style="background-image: url(/assets/images/author.jpg)">Blog Logo</div><h4>Maksim Pecherskiy</h4><p class=bio></p><hr><p class=published>Published <time datetime="2016-07-22 00:00">22 Jul 2016</time></p></section></div><div class=isRight><h5 class="index-headline featured"><span>Supported by</span></h5><footer class=site-footer><section class=poweredby>Proudly published with <a href=http://jekyllrb.com>Jekyll</a></section><a class=subscribe href=/feed.xml><span class=tooltip><i class="fa fa-rss"></i> You should subscribe to my feed.</span></a><div class=inner><section class=copyright>All content copyright <a href="/">Maksim Pecherskiy</a> &copy; 2016<br>All rights reserved.</section></div></footer></div></div><div id=disqus_thread></div><script type=text/javascript>/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'mrmaksimize'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article></main><div class=bottom-closer><div class=background-closer-image style="background-image: url(/assets/images/harddrive.jpg)">Image</div><div class=inner><h1 class=blog-title>Quandary.</h1><h2 class=blog-description>An Experiment</h2><a href="/" class=btn>Back to Overview</a></div></div><script src=https://code.jquery.com/jquery-1.11.1.min.js></script><script type=text/javascript src=/assets/js/jquery.fitvids.js></script><script type=text/javascript src=/assets/js/index.js></script><script type=text/javascript src=/assets/js/readingTime.min.js></script><script>(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));</script></body></html>
