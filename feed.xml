@@ -4,7 +4,7 @@
  <title>Quandary.</title>
  <link href="http://quandary.io/atom.xml" rel="self"/>
  <link href="http://quandary.io/"/>
- <updated>2016-07-22T17:27:35+00:00</updated>
+ <updated>2016-07-25T17:56:58+00:00</updated>
  <id>http://quandary.io</id>
  <author>
    <name></name>
@@ -126,6 +126,12 @@ To start building in Tableau, we need to add our data sources first. Make sure t
 &lt;p&gt;&lt;img src=&quot;http://take.ms/Up4JJ&quot; alt=&quot;Tableau2&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;This lets us filter by the number of gas stations in a Community Planning District.&lt;/p&gt;
+
+&lt;h2&gt;The Result&lt;/h2&gt;
+
+&lt;p&gt;You can find the &lt;a href=&quot;https://public.tableau.com/views/SDGasStationsbyCommunityPlanningDistrict/Sheet5?:embed=y&amp;amp;:display_count=yes&amp;amp;:showTabs=y&quot;&gt;published interactive visualization on Tableau Public&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://public.tableau.com/views/SDGasStationsbyCommunityPlanningDistrict/Sheet5?:embed=y&amp;:display_count=yes&amp;:showTabs=y&quot; title = &quot;SD Gas Stations by Community Planning District&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://mrm-screen.s3.amazonaws.com/SD_Gas_Stations_by_Community_Planning_District_-_MrMaksimize__Tableau_Public_2016-07-25_10-51-38.png&quot; alt = &quot;SD Gas Stations by Community Planning District&quot;&gt;&lt;/img&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2&gt;What&amp;rsquo;s Next?&lt;/h2&gt;
 
