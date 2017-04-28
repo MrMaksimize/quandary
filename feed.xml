@@ -4,13 +4,278 @@
  <title>Quandary.</title>
  <link href="http://quandary.io/atom.xml" rel="self"/>
  <link href="http://quandary.io/"/>
- <updated>2017-04-28T00:30:29+00:00</updated>
+ <updated>2017-04-28T00:38:54+00:00</updated>
  <id>http://quandary.io</id>
  <author>
    <name></name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>Why data automation matters for open data portals</title>
+   <link href="http://quandary.io/why-data-automation-matters-data-portals/"/>
+   <updated>2017-04-27T00:00:00+00:00</updated>
+   <id>http://quandary.io/why-data-automation-matters-data-portals</id>
+   <content type="html">&lt;p&gt;Be honest. When you read the words data automation you get a sudden rush of melatonin to your brain, your eyelids get heavy, and you get an uncontrollable urge to fall asleep. Don&amp;rsquo;t be ashamed; you are reacting to these words in a similar manner to 99.5% of people on the planet. Bear with me though for just a few paragraphs while I try to explain why it matters, and how we do it here at the City of San Diego.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Before we get started, let me promise to not use any of the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mathematics (or any subset thereof)&lt;/li&gt;
+&lt;li&gt;Buzzwords&lt;/li&gt;
+&lt;li&gt;Tech Jargon&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;The Quick Win&lt;/h3&gt;
+
+&lt;p&gt;One of the best case studies to make obvious the benefits of data automation is &lt;a href=&quot;http://streets.sandiego.gov&quot;&gt;StreetsSD&lt;/a&gt;. We started working on this project with the City&amp;rsquo;s Transportation and Stormwater Department (TSW). They asked us to build a map of paving projects. We got a spreadsheet of data from the department, loaded it into &lt;a href=&quot;http://carto.com&quot;&gt;our mapping tool&lt;/a&gt; and wrote some code. Boom, we had a map.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/carto_editor.jpg&quot; alt=&quot;Carto&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;The Ugly Loss&lt;/h3&gt;
+
+&lt;p&gt;Most web maps, charts, and data visualizations you see in newspapers, and even those created by a lot of cities, usually stop there. That&amp;rsquo;s actually OK because a lot of these things don&amp;rsquo;t need to be updated automatically.   However, the goal of StreetsSD is to provide an up-to-date status of work to city employees and residents. Keeping the map updated is important.&lt;/p&gt;
+
+&lt;p&gt;The typical City approach in these situations is to have someone &amp;ldquo;run a report&amp;rdquo; and upload it somewhere to update the map.  Most of the time, &amp;ldquo;running a report&amp;rdquo; actually means this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Extract data from a database, using a query (that could change, resulting in different data).&lt;/li&gt;
+&lt;li&gt;Complete 1-40 manual steps in Excel to clean the data.  These steps are usually not documented anywhere and could easily vary for each run of the report.&lt;/li&gt;
+&lt;li&gt;Send it or upload it somewhere.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This approach inherently has several problems:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Data is inconsistent, meaning source of truth is inconsistent&lt;/li&gt;
+&lt;li&gt;Bad data potentially causes bugs in the application&lt;/li&gt;
+&lt;li&gt;City employees waste a HUGE amount of time&lt;/li&gt;
+&lt;li&gt;People might forget to actually run the report&lt;/li&gt;
+&lt;li&gt;We can&amp;rsquo;t expect someone to run a report every day (or with any kind of frequency that a continously update data source needs).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Needless to say, this sucks. And even though we&amp;rsquo;re creating a great operational tool, we&amp;rsquo;re costing people time and risking the release of wrong information.&lt;/p&gt;
+
+&lt;p&gt;At this point, being the wise reader you are, you might be thinking that the outcome would definitely be worth the cost in the case of just one map. To which I&amp;rsquo;ll respond with:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/systemic_issue.jpg&quot; alt=&quot;Systemic issue&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;This is not a problem with just one map. It would occur with any dataset we provide as open data on the portal, anything we build on top of those datasets, and any internal or external reports we regularly generate.  Therefore, this is a problem that needs to be solved at a systemic level.&lt;/p&gt;
+
+&lt;h3&gt;Redemption&lt;/h3&gt;
+
+&lt;p&gt;Our philosophy has always been to let machines do what they do best - updating data, re-running things, keeping track of things - and humans do what they do best - making those fuzzy decisions that only our brains can.&lt;/p&gt;
+
+&lt;p&gt;We needed a flexible and extensible solution that could scale across the organization as a whole.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/sd_sources.jpg&quot; alt=&quot;CSD Data Sources&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;We turned to an open source project called &lt;a href=&quot;https://github.com/apache/incubator-airflow/&quot;&gt;Airflow&lt;/a&gt;. It has become the tool of choice for Spotify, IFTTT, Lyft, AirBnB and many others for solving this exact set of problems.  Airflow has several advantages:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Built in Python - so it&amp;rsquo;s extensible with any of thousands of Python open-source packages&lt;/li&gt;
+&lt;li&gt;Modular - new connections to different data sources are easy to write&lt;/li&gt;
+&lt;li&gt;Open source with a strong community - so there&amp;rsquo;s plenty of support and continuous updates&lt;/li&gt;
+&lt;li&gt;Scalable - as we need to do more and more, Airflow easily scales&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We called our Airflow deployment Poseidon because codenames are cool, San Diego is on the Ocean, and Poseidon rules the sea. Plus, we get to use images like these:
+&lt;img src=&quot;/assets/images/poseidon-hero.jpg&quot; alt=&quot;Poseidon&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;The basic idea of Poseidon is this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/simple_etl.jpg&quot; alt=&quot;Basic ETL&quot;&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get data from a source (database, spreadsheet, map, website)&lt;/li&gt;
+&lt;li&gt;Do some stuff to it (geocode it, aggregate it, clean it)&lt;/li&gt;
+&lt;li&gt;Upload it (put it on the cloud that is backing our portal and a variety of other applications)&lt;/li&gt;
+&lt;li&gt;Run it on a schedule (once every 5 minutes, OR once every day, OR on every odd day of the month at 3:02 PM)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Simple, right?&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re now doing this for all of our datasets (way harder to implement than explain). This means we&amp;rsquo;re also doing it for everything built on top of our data, such as StreetsSD, the portal, and various other visualizations.&lt;/p&gt;
+
+&lt;h3&gt;The Open Sea&lt;/h3&gt;
+
+&lt;p&gt;Now you&amp;rsquo;re probably thinking: whoop-de-doo, I&amp;rsquo;m a resident and I don&amp;rsquo;t know data, so I really don&amp;rsquo;t care that you now have automated data.&lt;/p&gt;
+
+&lt;p&gt;We know. That&amp;rsquo;s why we pushed it further.&lt;/p&gt;
+
+&lt;p&gt;Look back at the diagram above. Those are just dependent pieces that run in a defined cycle. What if we flipped out some of those pieces and got this?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/adv_flow_diagram.jpg&quot; alt=&quot;Adv Flow&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Automated data is now starting to get interesting. Because of Poseidon&amp;rsquo;s flexibility, and the fact that it&amp;rsquo;s just a bunch of coordinated tasks, we can send automatic notifications, alerts based on thresholds, and all kinds of other cool stuff that would never have been possible without automation.&lt;/p&gt;
+
+&lt;p&gt;But if I told you what we were planning next, I&amp;rsquo;d ruin the surprise. You&amp;rsquo;ll just have to wait and see.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>A Faster Data Portal</title>
+   <link href="http://quandary.io/portal-speedup/"/>
+   <updated>2017-04-19T00:00:00+00:00</updated>
+   <id>http://quandary.io/portal-speedup</id>
+   <content type="html">&lt;p&gt;Hey San Diego!  Your open data portal just got a LOT faster!&lt;/p&gt;
+
+&lt;p&gt;One of the reasons we wanted to &lt;a href=&quot;https://data.sandiego.gov/stories/portal-refresh&quot;&gt;run our own data portal&lt;/a&gt; is the flexibility we have to change it and add functionality.&lt;/p&gt;
+
+&lt;p&gt;Today, we&amp;rsquo;re putting the pedal to the metal on those desires.  We initially launched the portal based on JKAN,  but with modified schemas, layouts, and branding.  Because of how fast we moved, we put off thinking about speed and performance.&lt;/p&gt;
+
+&lt;p&gt;Since the dust settled a bit, we had a chance to do that.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developers.google.com/web/tools/lighthouse/&quot;&gt;Lighthouse&lt;/a&gt; is a tool developed by Google to test web pages for performance, accessibility, and more.  The first time we ran it against our portal, here&amp;rsquo;s what we got:
+&lt;img src=&quot;/assets/images/lighthouse-previous.jpg&quot; alt=&quot;Click to see full report&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://theia.datasd.org.s3.amazonaws.com/data.sandiego.gov_2017-03-02_19-26-42.html&quot;&gt;See full report&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;30 out of 100, with a lot of marks against the portal due to loading speed.  Time to first paint is a metric that measures when the primary content of a page is visible. That number means it took 5.3 seconds after you navigated to the portal for anything to show up.&lt;/p&gt;
+
+&lt;p&gt;We did badly on plenty of other metrics, including SSL encryption (HTTPS) and offline browsing.&lt;/p&gt;
+
+&lt;p&gt;So why does this matter (besides our obsessive perfectionism)?  KissMetrics has a &lt;a href=&quot;https://blog.kissmetrics.com/loading-time/?wide=1&quot;&gt;great infographic about this&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/kissmetrics-loading.jpg&quot; alt=&quot;Loading Time&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;In short, we were losing an estimated 25 percent of portal users because of the page loading speed.  Not good.&lt;/p&gt;
+
+&lt;p&gt;My friend and former Code for America co-fellow &lt;a href=&quot;http://twitter.com/davidleonardii&quot;&gt;David Leonard&lt;/a&gt; (who also got me into Polymer components that the &lt;a href=&quot;https://data.sandiego.gov/stories/portal-refresh&quot;&gt;portal heavily uses&lt;/a&gt; ) helped me analyze where the bottlenecks were in our page loading time and gave me some tips about how to speed up the portal.&lt;/p&gt;
+
+&lt;p&gt;We implemented https and service workers (for security and offline browsing and caching) and optimized how components load. The portal is now encrypted, and you can browse it offline.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m not going to go into too much detail, but you can &lt;a href=&quot;https://github.com/cityofsandiego/seaboard/pull/140&quot;&gt;see the pull request here&lt;/a&gt;.  We tested again and got a score of 96:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/lighthouse-report-final.jpg&quot; alt=&quot;New Lighthouse&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://theia.datasd.org.s3.amazonaws.com/data.sandiego.gov_2017-04-12_18-17-58.html&quot;&gt;See full report&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Let me use a few buzzwords to describe what happened here, for those fond of them:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;We used an agile process to iterate on the technology underlying the performance, availability, and scalability of our portal architecture to decrease page loading speed, increase cybersecurity, and improve an already great product with enhanced user experience.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Or in English:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;We did a thing that most organizations do: we improved something we launched, because no one ever gets everything right the first time.  We&amp;rsquo;ll do it again, and again, and again. This is just the first of many changes and enhancements we will be making.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Enjoy your [faster] portal, San Diego!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Behind the Scenes of StreetsSD</title>
+   <link href="http://quandary.io/streets-sd/"/>
+   <updated>2016-11-01T00:00:00+00:00</updated>
+   <id>http://quandary.io/streets-sd</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;http://streets.sandiego.gov&quot;&gt;StreetsSD&lt;/a&gt; was an interesting project us from an organizational and technical perspective.  Let&amp;rsquo;s peek behind the scenes to see how this all came together.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h1&gt;Overall Architecture&lt;/h1&gt;
+
+&lt;h2&gt;Jekyll&lt;/h2&gt;
+
+&lt;p&gt;Overall, &lt;a href=&quot;http://streets.sandiego.gov&quot;&gt;StreetsSD&lt;/a&gt; is a &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; site.  This allows us to avoid maintenance costs, performance issues, and complexity associated with running database-driven sites.  We host it using Github Pages for the wonderful price of $0.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/sdstreets_outline.jpg&quot; alt=&quot;Jekyll Outline&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Everything you see outlined in pink above is Jekyll and custom JS. We used the &lt;a href=&quot;www.sandiego.gov/communications/design/index.shtml&quot;&gt;San Diego Style Guide&lt;/a&gt; for colors and layouts.  The charts on the bottom, the layers, and the text in the explainer boxes are controlled by the &lt;a href=&quot;https://github.com/cityofsandiego/streetsSD/blob/master/src/_data/views.yml&quot;&gt;views.yml&lt;/a&gt; in the repo.&lt;/p&gt;
+
+&lt;p&gt;All the dynamic components you see from the layers (FY14, FY15, etc) to the charts and totals are populated through custom SQL queries against data in Carto. They are constructed using the &lt;a href=&quot;https://hiddentao.com/squel/&quot;&gt;squel library&lt;/a&gt; in the &lt;a href=&quot;https://github.com/cityofsandiego/streetsSD/blob/master/src/assets/javascript/sqlBuilder.js&quot;&gt;sqlBuilder&lt;/a&gt; file.&lt;/p&gt;
+
+&lt;p&gt;As an example, when you click on the &amp;ldquo;Work in FY-2016&amp;rdquo; layer, an event is sent that constructs and sends the query to Carto to display results on a map.  Based on the &lt;a href=&quot;https://github.com/cityofsandiego/streetsSD/blob/master/src/_data/views.yml&quot;&gt;views.yml&lt;/a&gt; file, we know that layer has WorkType and WorkByMonth charts, so one more query is constructed and sent to Carto.  After additional JS data processing, we are able to display the charts.&lt;/p&gt;
+
+&lt;h2&gt;Carto&lt;/h2&gt;
+
+&lt;p&gt;The interactive map itself is all Carto.  Most of the visual components (e.g. line styles, legends, hovers) are stored in Carto as well.  We don&amp;rsquo;t love that, because those should be stored in code, but we have an issue on the backlog to address it.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/carto_editor.jpg&quot; alt=&quot;Carto editor&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;The map in Carto has two &amp;ldquo;layers&amp;rdquo; - one for OCI and one for Streetwork, both based off &lt;code&gt;sdstreets_query&lt;/code&gt; table.  Carto&amp;rsquo;s model for associating layers to datasets ties them together permanently.  By having a virtual dataset that we can impose queries on, we are eliminating the tie between a dataset and a map, giving us more flexibility to flip out the underlying datasets if we need to change schemas.&lt;/p&gt;
+
+&lt;p&gt;Then why two layers from one table?  Because OCI layers and streetwork layers have slightly different fields and labels. Carto&amp;rsquo;s interactive UI is tied to a layer, and we had to separate the two. Then, we impose the queries on the layer accordingly.  We can probably condense this to one layer using more advanced conditional logic, but we&amp;rsquo;ll stay away from that for now.&lt;/p&gt;
+
+&lt;h2&gt;Deployment&lt;/h2&gt;
+
+&lt;p&gt;We use the &lt;code&gt;master&lt;/code&gt; branch as the bleeding edge.  That gets deployed to a staging site continuously by CircleCI.  The &lt;code&gt;production&lt;/code&gt; branch gets deployed to the &lt;code&gt;gh-pages&lt;/code&gt; branch, which is what feeds &lt;a href=&quot;http://streets.sandiego.gov&quot;&gt;StreetsSD&lt;/a&gt;.  We get notifications about each step.&lt;/p&gt;
+
+&lt;h2&gt;Datasets&lt;/h2&gt;
+
+&lt;h5&gt;&lt;code&gt;cg_streets_combined&lt;/code&gt;&lt;/h5&gt;
+
+&lt;p&gt;We created this dataset by merging the City&amp;rsquo;s official street file geographies with essential data from the City&amp;rsquo;s Pavement Management System.  Every other set of data is joined against &lt;code&gt;cg_streets_combined&lt;/code&gt; by &lt;code&gt;segment_id&lt;/code&gt; to derive the geometries and street names.&lt;/p&gt;
+
+&lt;h5&gt;&lt;code&gt;sd_paving_datasd&lt;/code&gt;&lt;/h5&gt;
+
+&lt;p&gt;This is the full work layer, encompassing work done from the beginning of FY14. We&amp;rsquo;ll talk about the specifics in the data delivery section.  This has no geospatial data.  As layers get selected, SQL is generated, applied to this layer, and joined against &lt;code&gt;cg_streets_combined&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h5&gt;&lt;code&gt;oci_2011_datasd&lt;/code&gt; and &lt;code&gt;oci_2015_datasd&lt;/code&gt;&lt;/h5&gt;
+
+&lt;p&gt;These were created using historical data provided in the Pavement Management System and the new OCI numbers we received from latest run of the most recent vendor.  These also have no geospatial data.  As layers get selected, SQL is generated, applied to this layer, and joined against &lt;code&gt;cg_streets_combined&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Data Discovery&lt;/h2&gt;
+
+&lt;p&gt;We partnered with the &lt;a href=&quot;https://www.sandiego.gov/tsw&quot;&gt;Transportation and Storm Water Department&lt;/a&gt; to build the map.  However, we quickly ran into some challenges with understanding the data, and the calculations performed for reporting.&lt;/p&gt;
+
+&lt;p&gt;The PVM (let&amp;rsquo;s use that as the acronym for the Pavement Management System) is an application that is built on top of SQL server using queries and stored procedures.  Every month, the streets team has to update IMCAT.  IMCAT is a system the City uses to coordinate street work across departments. This way we can avoid the same segment being dug up multiple times in a short time span.  The streets team pull a report from the PVM generated by a query and a stored procedure).  Then, it&amp;rsquo;s manually cleaned in Excel (we counted 32 steps), joined with a streets shapefile, and uploaded it to IMCAT.&lt;/p&gt;
+
+&lt;p&gt;This is where we started.  The data that gets uploaded to IMCAT has to be in a particular format with certain columns, so we couldn&amp;rsquo;t directly trace that dataset to the query running against PVM.  And we couldn&amp;rsquo;t just guess the query and match the result either - PVM has 319 tables.&lt;/p&gt;
+
+&lt;p&gt;A few months ago, the City invested in a tool called Alation exactly for this type of use case.  We wanted to be able to maintain data catalogs and keep documentation on the data that we have, allowing data users to be better informed.  This database is the first one we connected with Alation.&lt;/p&gt;
+
+&lt;p&gt;We built a robust query to continuously pull data.  To do this, we used Alation to trace the query the PVM application was running.  However, we had no visibility into the stored procedure.  To bypass this, we combined information from using the query, the streets team and Alation&amp;rsquo;s query logs.&lt;/p&gt;
+
+&lt;h3&gt;Query Log&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/alation_query_log.jpg&quot; alt=&quot;Query Log&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Tables&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/alation_tables.jpg&quot; alt=&quot;Tables&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Table Internal View + Our Notes&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/alation_table_internal.jpg&quot; alt=&quot;Table Internal View + Our Notes&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Built Query for Paving Data&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/built_query.jpg&quot; alt=&quot;Built Query for Paving Data&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;Built Query for Street Info&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://take.ms/r9EHi&quot; alt=&quot;Built Query for Street Info&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Going through this process gave us an enormous amount of knowledge of street paving information, which we have documented in Alation.&lt;/p&gt;
+
+&lt;p&gt;However, we weren&amp;rsquo;t done yet.  We still needed to build the ETL for Street Map Data, IMCAT data (because friends don&amp;rsquo;t let friends clean data over and over manually), and the &lt;code&gt;CG_STREETS_COMBINED&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;h2&gt;Data Delivery&lt;/h2&gt;
+
+&lt;p&gt;We have two main queries that pull data without doing much cleaning.  We wanted to stay away from cleaning in SQL as a best practice.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;streets_base&lt;/code&gt; gets pulled by FME, combined with the geospatial base file, and outputs as a shapefile to S3.  Carto syncs it down from there:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cg_fme.jpg&quot; alt=&quot;Streets Base ETL&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;R pulls &lt;code&gt;Pavement Ex&lt;/code&gt; in using Alation&amp;rsquo;s API and the &lt;a href=&quot;https://github.com/mattwg/alation&quot;&gt;Alation R Package&lt;/a&gt;, completes the 32 manual steps the department normally has to do (with some conditional forks for IMCAT), and then outputs the &lt;code&gt;sd_paving_datasd.csv&lt;/code&gt; file into S3.  We also make sure to standardize the outgoing data according to our &lt;a href=&quot;https://datasd.gitbooks.io/open-data-implementation-update-2016/content/main/technical-guidelines.html&quot;&gt;Technical Guidelines&lt;/a&gt;.  At the same time, we output the IMCAT file to be ingested for the conflict mitigation map.&lt;/p&gt;
+
+&lt;h2&gt;Verifying Calculations&lt;/h2&gt;
+
+&lt;p&gt;So, how in the world do we know that our constructed SQL on the client side is doing the right thing and making the right calculations? We use R to verify that the calculations are correct by pulling the data straight from Alation, and duplicating the calculations that the SQL does on Streets Map.&lt;/p&gt;
+
+&lt;h1&gt;What&amp;rsquo;s next?&lt;/h1&gt;
+
+&lt;p&gt;This is an alpha project, and we plan to continue working on it.  We will work in sprints As people submit feature or bug requests, we will prioritize them according to what we think we can do during the time allotted. Critical bugs always get fixed first.&lt;/p&gt;
+
+&lt;p&gt;Of course, we are more than open to Pull Requests.  If there is a feature you really want and we&amp;rsquo;re just unable to get to it, feel free to discuss it with us in the &lt;a href=&quot;https://github.com/cityofsandiego/streetsSD/issues&quot;&gt;issue queues&lt;/a&gt;, fork the code, and make a Pull Request.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>GIS and Spatial Joins in Tableau</title>
