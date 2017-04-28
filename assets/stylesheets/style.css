@@ -645,7 +645,6 @@ h1, h2, h3, h4, h5, h6 {
   /* 15px */
   color: rgba(255, 255, 255, 0.6);
   background-color: #202020;
-  -webkit-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out; }
   .sidebar a {
     font-weight: normal;
@@ -747,7 +746,7 @@ a.sidebar-nav-item:hover, a.sidebar-nav-item:focus {
   backface-visibility: hidden; }
 
 .wrap, .sidebar-toggle {
-  -webkit-transition: -webkit-transform .3s ease-in-out;
+  transition: -webkit-transform .3s ease-in-out;
   transition: transform .3s ease-in-out; }
 
 #sidebar-checkbox:checked + .sidebar {
