@@ -52,7 +52,7 @@ limit_posts: 10
 twitter_handle: '@MrMaksimize'
 
 #fill in disqus shortname to use disqus
-disqus: mrmaksimize
+#disqus: mrmaksimize
 
 # social icons and sharing options
 #social:
